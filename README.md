@@ -1,3 +1,5 @@
+![ci](https://github.com/pydefi/clamfig/actions/workflows/tox.yml/badge.svg)
+
 # Clamfig
 
 ## Features:
