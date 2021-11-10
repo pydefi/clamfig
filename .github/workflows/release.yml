@@ -6,7 +6,7 @@ name: Publish clamfig to PyPI
 
 on:
   release:
-    types: [published]
+    types: [published, released]
 
 jobs:
   build-n-publish:
@@ -36,8 +36,15 @@ jobs:
         --outdir dist/
         .
 
-    - name: Publish clamfig distribution 📦 to PyPI
-      if: startsWith(github.ref, 'refs/tags/v')
+    - name: Publish clamfig distribution to Test PyPI
+      if: "github.event.release.prerelease"
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        password: ${{ secrets.CLAMFIG_TEST_PYPI_API_TOKEN }}
+        repository_url: https://test.pypi.org/legacy/
+
+    - name: Publish clamfig distribution  to PyPI
+      if: "!github.event.release.prerelease"
       uses: pypa/gh-action-pypi-publish@master
       with:
         password: ${{ secrets.CLAMFIG_PYPI_API_TOKEN }}
